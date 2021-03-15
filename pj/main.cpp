@@ -6,6 +6,8 @@
 #include<SFML/Network.hpp>
 #include<SFML/Window.hpp>
 
+#include"Header.h"
+
 using namespace std;
 
 int main() {
@@ -24,7 +26,7 @@ int main() {
 	logo_texture.loadFromFile("images/logo.png");
 	logo.setTexture(logo_texture);
 	logo.setPosition(sf::Vector2f(450, -300));
-	logo.setScale(sf::Vector2f(1.10, 1.10));
+	logo.setScale(sf::Vector2f(1, 1));
 
 	sf::Sprite bplay;
 	sf::Texture bplay_texture;
@@ -34,7 +36,7 @@ int main() {
 	bplay_on_texture.loadFromFile("images/bplay_on.png");
 	bplay.setTexture(bplay_texture);
 	bplay.setPosition(sf::Vector2f(820, 500));
-	bplay.setScale(sf::Vector2f(0.7, 0.7));
+	bplay.setScale(sf::Vector2f(1, 1));
 
 	sf::Sprite binfo;
 	sf::Texture binfo_texture;
@@ -42,7 +44,7 @@ int main() {
 	binfo_texture.loadFromFile("images/binfo.png");
 	binfo.setTexture(binfo_texture);
 	binfo.setPosition(sf::Vector2f(825, 650));
-	binfo.setScale(sf::Vector2f(0.7, 0.7));
+	binfo.setScale(sf::Vector2f(1, 1));
 
 	sf::Sprite bhigh;
 	sf::Texture bhigh_texture;
@@ -50,7 +52,7 @@ int main() {
 	bhigh_texture.loadFromFile("images/bhigh.png");
 	bhigh.setTexture(bhigh_texture);
 	bhigh.setPosition(sf::Vector2f(895, 850));
-	bhigh.setScale(sf::Vector2f(0.7, 0.7));
+	bhigh.setScale(sf::Vector2f(1, 1));
 
 	sf::Sprite mod1;
 	sf::Texture mod1_texture;
@@ -84,6 +86,23 @@ int main() {
 	buttbacktomenu.setPosition(sf::Vector2f(1750, 950));
 	buttbacktomenu.setScale(sf::Vector2f(0.5, 0.5));
 
+	sf::Font font;
+	font.loadFromFile("font/Inconsolata-Regular.ttf");
+
+	
+	Textbox text1(20, true);
+	text1.setPosition({ 100, 100 });
+	text1.setLimit(false, 30);
+	text1.setFont(font);
+
+	sf::Sprite textinputbox;
+	sf::Texture textinputbox_texture;
+	textinputbox_texture.loadFromFile("images/textinputbox.png");
+	textinputbox.setTexture(textinputbox_texture);
+	textinputbox.setPosition(sf::Vector2f(100, 100));
+	textinputbox.setScale(sf::Vector2f(1, 1));
+
+
 	window.clear();
 
 	window.draw(background_menu);
@@ -91,9 +110,10 @@ int main() {
 	window.draw(bplay);
 	window.draw(binfo);
 	window.draw(bhigh);
+	window.draw(textinputbox);
 
 	window.display();
-	
+
 	while (window.isOpen()) 
 	{
 		while (window.pollEvent(ev)) 
@@ -103,9 +123,21 @@ int main() {
 			case sf::Event::Closed:
 				window.close();
 				break;
-			case sf::Event::KeyPressed:
-				if (ev.key.code == sf::Keyboard::Escape)
-					window.close();	
+			case sf::Event::TextEntered:
+					if (textinputbox.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window))))
+					{
+						window.draw(background_menu);
+						window.draw(logo);
+						window.draw(bplay);
+						window.draw(binfo);
+						window.draw(bhigh);
+						window.draw(textinputbox);
+						text1.typedOn(ev);
+						text1.drawTo(window);
+						window.display();
+					}
+				break;
+
 			case sf::Event::MouseButtonPressed:
 				if (ev.mouseButton.button == sf::Mouse::Left)
 				{
@@ -136,10 +168,11 @@ int main() {
 
 					break;
 				}
-
+				
 			}
+
 		}
-		
+
 	}
 
 	return 0;
