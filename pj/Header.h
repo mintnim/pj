@@ -92,6 +92,7 @@ public:
 			}
 		}
 	}
+
 private:
 	sf::Text textbox;
 
@@ -125,7 +126,10 @@ private:
 			}
 		}
 		else if (charTyped == ENTER_KEY) {
-			
+			for (int i = 0; i < 8; i++)
+			{
+				deleteLastChar();
+			}
 		}
 		// Set the textbox text:
 		textbox.setString(text.str() + "_");

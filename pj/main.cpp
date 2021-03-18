@@ -90,9 +90,9 @@ int main() {
 	font.loadFromFile("font/Inconsolata-Regular.ttf");
 
 	
-	Textbox text1(20, true);
+	Textbox text1(50, true);
 	text1.setPosition({ 100, 100 });
-	text1.setLimit(false, 30);
+	text1.setLimit(true, 9);
 	text1.setFont(font);
 
 	sf::Sprite textinputbox;
@@ -100,7 +100,7 @@ int main() {
 	textinputbox_texture.loadFromFile("images/textinputbox.png");
 	textinputbox.setTexture(textinputbox_texture);
 	textinputbox.setPosition(sf::Vector2f(100, 100));
-	textinputbox.setScale(sf::Vector2f(1, 1));
+	textinputbox.setScale(sf::Vector2f(0.5, 0.5));
 
 
 	window.clear();
